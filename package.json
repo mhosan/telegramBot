@@ -1,0 +1,18 @@
+{
+  "name": "telegram-bot",
+  "version": "1.0.0",
+  "description": "Mi bot de Telegram",
+  "main": "mhBot01.js",
+  "scripts": {
+    "start": "node mhBot01.js",
+  "start:daemon": "node start.js",
+  "dev": "nodemon bot.js"
+  },
+  "dependencies": {
+    "node-telegram-bot-api": "^0.64.0",
+    "dotenv": "^16.0.3"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
