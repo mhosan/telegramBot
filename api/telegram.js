@@ -46,6 +46,18 @@ async function handleMessage(msg, token) {
     return sendMessage(token, chatId, 'pong 🟢');
   }
 
+  // --- Nuevo comando IA mínimo ---
+  if (text.startsWith('/ai') || text.startsWith('/ia')) {
+    const prompt = text.replace(/^\/(ai|ia)\s?/, '').trim();
+    if (!prompt) {
+      return sendMessage(token, chatId, 'Uso: /ai <pregunta>');
+    }
+    const { askAI } = require('../utils/aiClient');
+    const reply = await askAI(prompt);
+    return sendMessage(token, chatId, reply);
+  }
+  // --- Fin nuevo comando IA ---
+
   if (!text.startsWith('/')) {
     return sendMessage(token, chatId, `Eco: ${text}`);
   }
