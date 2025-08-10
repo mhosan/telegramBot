@@ -500,3 +500,38 @@ grep -R "TELEGRAM_BOT_TOKEN" -n .
 ```
 
 ---
+## 16. Script PowerShell para setWebhook
+
+Incluido en `scripts/setWebhook.ps1` para automatizar el alta del webhook.
+
+Uso básico (PowerShell en Windows):
+```powershell
+cd scripts
+./setWebhook.ps1 -Token "NUEVO_TOKEN" -BaseUrl "https://tu-app.vercel.app"
+```
+
+Con secreto:
+```powershell
+./setWebhook.ps1 -Token "NUEVO_TOKEN" -BaseUrl "https://tu-app.vercel.app" -Secret "MI_SECRETO"
+```
+
+Salida esperada:
+```
+== Configurando webhook ==
+Webhook URL: https://tu-app.vercel.app/webhook
+Respuesta setWebhook: { "ok": true, ... }
+WebhookInfo:
+{ ... }
+== Listo ==
+```
+
+Errores comunes:
+| Mensaje | Causa | Solución |
+|---------|-------|----------|
+| Missing TELEGRAM_BOT_TOKEN | Token vacío / mal pasado | Verifica parámetro -Token |
+| webhook url is invalid | URL mal escrita / sin https | Usa https y dominio válido |
+| bad request: failed to resolve host | Dominio incorrecto / DNS propagando | Esperar o revisar dominio |
+
+Puedes volver a ejecutar el script tras un redeploy sin problemas (Telegram sustituye la URL anterior).
+
+---
