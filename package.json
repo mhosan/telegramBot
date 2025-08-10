@@ -1,12 +1,10 @@
 {
   "name": "telegram-bot",
   "version": "1.0.0",
-  "description": "Mi bot de Telegram",
-  "main": "mhBot01.js",
+  "description": "Telegram bot serverless en Vercel",
+  "main": "api/telegram.js",
   "scripts": {
-    "start": "node mhBot01.js",
-  "start:daemon": "node start.js",
-  "dev": "nodemon bot.js"
+    "dev": "vercel dev"
   },
   "dependencies": {
     "node-telegram-bot-api": "^0.64.0",
