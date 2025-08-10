@@ -1,4 +1,4 @@
-# Telegram Bot en Vercel
+# Telegram Bot en Vercel, desarr. por Marcelo Hosan
 
 Bot de Telegram desplegado como función serverless en Vercel con webhook y auto-deploy desde GitHub.
 
