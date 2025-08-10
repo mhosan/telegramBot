@@ -26,7 +26,12 @@ async function askAI(prompt, model = DEFAULT_MODEL) {
     });
     const data = await resp.json();
     const content = data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
-    return content || "Sin respuesta";
+    if (content) return content;
+    if (data && data.error) {
+      // Mensaje breve de error permitido (sin detalles extensos)
+      return `Error IA: ${data.error.message || data.error}`.slice(0,120);
+    }
+    return "Sin respuesta";
   } catch (e) {
     return "Error IA"; // Respuesta breve, sin detalles
   }
