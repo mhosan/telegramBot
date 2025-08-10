@@ -1,11 +1,9 @@
 {
   "version": 2,
-  "functions": {
-    "api/telegram.js": {
-      "runtime": "nodejs20.x"
-    }
-  },
+  "builds": [
+    { "src": "api/telegram.js", "use": "@vercel/node" }
+  ],
   "routes": [
-    { "src": "/webhook", "dest": "/api/telegram.js" }
+    { "src": "/webhook", "dest": "api/telegram.js" }
   ]
 }
