@@ -1,4 +1,4 @@
-param(
+npm install -g vercelparam(
   [Parameter(Mandatory=$true)][string]$Token,
   [Parameter(Mandatory=$true)][string]$BaseUrl,
   [string]$Secret
