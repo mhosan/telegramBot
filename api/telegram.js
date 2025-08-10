@@ -59,7 +59,9 @@ async function handleMessage(msg, token) {
   // --- Fin nuevo comando IA ---
 
   if (!text.startsWith('/')) {
-    return sendMessage(token, chatId, `Eco: ${text}`);
+  const { askAI } = require('../utils/aiClient');
+  const reply = await askAI(text);
+  return sendMessage(token, chatId, reply);
   }
 }
 

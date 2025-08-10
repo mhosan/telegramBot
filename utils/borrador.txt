@@ -1,138 +1,148 @@
 ## INSTRUCCIONES CRÍTICAS - LEER PRIMERO
-- **IMPLEMENTAR ÚNICAMENTE** la funcionalidad solicitada
-- **NO MODIFICAR** código existente que funciona correctamente
-- **NO AGREGAR** validaciones, optimizaciones o mejoras no pedidas
-- **MANTENER** la arquitectura y patrones existentes del proyecto
-- **CONFIRMAR** alcance exacto antes de proceder
+- **MODIFICAR ÚNICAMENTE** lo específicamente solicitado
+- **NO TOCAR** funcionalidades relacionadas que funcionen correctamente
+- **NO APROVECHAR** para hacer "mejoras" adicionales
+- **MANTENER** el comportamiento existente en todo lo demás
+- **CONFIRMAR** alcance exacto de la modificación antes de proceder
 
-## PROCESO DE IMPLEMENTACIÓN
+## PROCESO DE MODIFICACIÓN
 
-### 1. DEFINICIÓN EXACTA DEL FEATURE
-**Descripción del feature solicitado:**
-Agregar IA al bot
-[DESCRIPCIÓN DETALLADA DEL FEATURE AQUÍ]
-Agregar IA al bot de la forma más simple posible. Buscar el mecanismo mas sencillo
-usando como ejemplo el archivo openrouter.js (authorization_bearer en .env)
+### 1. DEFINICIÓN EXACTA DE LA MODIFICACIÓN
+**Cambio solicitado:**
+Que por defecto siempre responda la ia
+[DESCRIPCIÓN ESPECÍFICA DE QUÉ MODIFICAR AQUÍ]
+Modificar y/o actualizar el código para que siempre responda la ia sin tener
+que ingresar "/ia .."
 
 **Especificaciones obligatorias:**
-- [ ] Funcionalidad EXACTA requerida (sin interpretaciones)
-- [ ] Casos de uso específicos a cubrir
-- [ ] Comportamiento esperado definido
-- [ ] Límites claros de lo que NO debe incluir
+- [ ] Comportamiento ACTUAL a cambiar (específico)
+- [ ] Comportamiento DESEADO (específico)
+- [ ] Elementos que NO deben cambiar
+- [ ] Alcance exacto de la modificación
 
-### 2. ANÁLISIS DE INTEGRACIÓN (Sin modificar código)
-**Evaluación del proyecto actual:**
-- Arquitectura existente a respetar
-- Patrones de código a seguir
-- Dependencias actuales disponibles
-- Puntos de integración específicos
+### 2. MAPEO DE IMPACTO (Sin modificar código)
+**Análisis de componentes afectados:**
+- Código específico que debe cambiar
+- Funcionalidades que podrían verse afectadas
+- Dependencias que usan el código a modificar
+- Puntos de integración que deben preservarse
 
 **Restricciones del análisis:**
-- NO sugerir refactoring de código existente
-- NO proponer cambios de arquitectura
-- USAR herramientas y librerías ya presentes
-- MANTENER convenciones de nomenclatura actuales
+- IDENTIFICAR únicamente lo mínimo necesario
+- NO buscar oportunidades de mejora
+- NO considerar optimizaciones paralelas
+- MANTENER la lógica existente intacta donde sea posible
 
-### 3. INVESTIGACIÓN TÉCNICA DIRIGIDA
-**Documentación oficial de referencia:**
+### 3. INVESTIGACIÓN TÉCNICA ESPECÍFICA
+**Documentación de referencia:**
 - DHTMLX Gantt API: https://docs.dhtmlx.com/gantt/api__refs__gantt.html
 - Ejemplos oficiales: https://docs.dhtmlx.com/gantt/samples/
 
-**Validación de implementación:**
-- Buscar ejemplos similares en documentación oficial
+**Validación de la modificación:**
+- Confirmar que el cambio es técnicamente viable
 - Verificar compatibilidad con versión actual
-- Confirmar mejores prácticas específicas para esta funcionalidad
+- Asegurar que no rompe patrones establecidos
 
-### 4. DISEÑO MÍNIMO VIABLE
+### 4. ESTRATEGIA DE MODIFICACIÓN MÍNIMA
 **Antes de implementar, DEFINIR:**
-- [ ] Componentes NUEVOS necesarios (mínimos)
-- [ ] Archivos NUEVOS requeridos
-- [ ] Modificaciones MÍNIMAS a archivos existentes
-- [ ] APIs o métodos NUEVOS a crear
-- [ ] Eventos o hooks NUEVOS necesarios
+- [ ] Líneas específicas de código a modificar
+- [ ] Archivos exactos que requieren cambios
+- [ ] Métodos/funciones que necesitan ajustes
+- [ ] Variables/propiedades a modificar
+- [ ] Lo que debe permanecer SIN CAMBIOS
 
-### 5. PLAN DE IMPLEMENTACIÓN INCREMENTAL
+### 5. PLAN DE IMPLEMENTACIÓN QUIRÚRGICA
 
-#### Fase 1: Estructura Base
-- Crear ÚNICAMENTE archivos/componentes nuevos necesarios
-- Definir interfaces mínimas
-- NO tocar funcionalidad existente
+#### Fase 1: Localización Exacta
+- Identificar las líneas precisas a modificar
+- Confirmar contexto y dependencias inmediatas
+- Documentar estado actual para rollback
 
-#### Fase 2: Lógica Core
-- Implementar funcionalidad específica solicitada
-- Integrar con puntos definidos en Fase 1
-- Mantener aislamiento del código existente
+#### Fase 2: Modificación Puntual
+- Cambiar ÚNICAMENTE lo solicitado
+- Mantener estructura y patrones existentes
+- Preservar nombres, formatos y convenciones
 
-#### Fase 3: Integración Mínima
-- Conectar nueva funcionalidad con sistema existente
-- ÚNICAMENTE los puntos de conexión necesarios
-- Preservar comportamiento actual
-
-#### Fase 4: Activación
-- Hacer disponible la nueva funcionalidad
-- Sin modificar flujos existentes
-- Mantener retrocompatibilidad total
+#### Fase 3: Verificación de No-Regresión
+- Confirmar que la modificación funciona
+- Verificar que funcionalidades relacionadas siguen igual
+- Asegurar que no se rompió nada más
 
 ## RESTRICCIONES ESTRICTAS
 
-### LO QUE NO DEBE INCLUIRSE:
-- ❌ Validaciones adicionales "por seguridad"
-- ❌ Optimizaciones no solicitadas
-- ❌ Refactoring de código existente
-- ❌ Mejoras de UX no pedidas
-- ❌ Logging adicional
-- ❌ Manejo de errores más allá del mínimo
-- ❌ Documentación extensa
-- ❌ Tests unitarios (a menos que se soliciten)
+### LO QUE NO DEBE HACERSE:
+- ❌ Refactorizar código "mientras estamos ahí"
+- ❌ Cambiar nombres de variables/métodos
+- ❌ Optimizar algoritmos existentes
+- ❌ Mejorar manejo de errores no relacionado
+- ❌ Actualizar dependencias
+- ❌ Cambiar estructuras de datos
+- ❌ Modificar estilos de código
+- ❌ Agregar validaciones extra
+- ❌ Cambiar arquitectura local
 
-### LO QUE SÍ DEBE INCLUIRSE:
-- ✅ Funcionalidad exacta solicitada
-- ✅ Integración mínima necesaria
-- ✅ Respeto por convenciones existentes
-- ✅ Código limpio y legible
-- ✅ Comentarios solo para lógica compleja nueva
+### LO QUE SÍ DEBE HACERSE:
+- ✅ Cambio exacto solicitado
+- ✅ Mantener estilo de código existente
+- ✅ Preservar funcionalidad no relacionada
+- ✅ Respetar convenciones actuales
+- ✅ Mantener legibilidad sin refactorizar
 
 ## FORMATO DE RESPUESTA REQUERIDO
 
-### RESUMEN DEL FEATURE
-**Funcionalidad a implementar:** [Una línea específica]
-**Archivos NUEVOS a crear:** [Lista específica]
-**Archivos existentes a MODIFICAR:** [Lista mínima con justificación]
-**Puntos de integración:** [Específicos y mínimos]
+### RESUMEN DE LA MODIFICACIÓN
+**Cambio específico a realizar:** [Una línea clara]
+**Archivos a modificar:** [Lista exacta]
+**Líneas aproximadas afectadas:** [Número específico]
+**Funcionalidades que permanecen igual:** [Confirmación explícita]
 
-### ARQUITECTURA PROPUESTA
-**Componentes nuevos:** [Lista con responsabilidad específica]
-**APIs nuevas:** [Métodos exactos necesarios]
-**Eventos nuevos:** [Si son necesarios]
-**Dependencias adicionales:** [Solo si son imprescindibles]
+### ANÁLISIS DE IMPACTO
+**Código que cambia:** [Descripción específica]
+**Código que NO cambia:** [Confirmación de lo que se preserva]
+**Dependencias afectadas:** [Si las hay]
+**Tests de regresión necesarios:** [Áreas específicas a verificar]
 
-### PLAN FASEADO DETALLADO
-**Fase 1 - Estructura:** [Archivos a crear, tiempo estimado]
-**Fase 2 - Lógica:** [Funcionalidad core, tiempo estimado]
-**Fase 3 - Integración:** [Conexiones específicas, tiempo estimado]
-**Fase 4 - Activación:** [Disponibilidad, tiempo estimado]
+### PLAN DE MODIFICACIÓN
+**Paso 1:** [Acción específica en archivo X, línea Y]
+**Paso 2:** [Acción específica en archivo Z, línea W]
+**Paso 3:** [Verificación específica]
 
-### IMPACTO EN SISTEMA EXISTENTE
-**Código existente afectado:** [Líneas específicas a modificar]
-**Funcionalidades en riesgo:** [Si las hay]
-**Pruebas de regresión necesarias:** [Áreas a verificar]
+### IMPLEMENTACIÓN DETALLADA
+**Código actual:**
+```
+[Código que será modificado]
+```
 
-## VALIDACIONES FINALES PRE-IMPLEMENTACIÓN
-- [ ] ¿La solución es la mínima para cumplir el requisito?
-- [ ] ¿Se respeta la arquitectura existente?
-- [ ] ¿Se validó con documentación oficial?
-- [ ] ¿No agrega funcionalidades extras?
-- [ ] ¿Se mantiene retrocompatibilidad?
-- [ ] ¿El código existente sigue funcionando igual?
-- [ ] ¿El plan es incremental y reversible?
+**Código modificado:**
+```
+[Código después del cambio]
+```
 
-## CRITERIOS DE ACEPTACIÓN
-**El feature estará completo cuando:**
-1. [Criterio específico 1]
-2. [Criterio específico 2]
-3. [Criterio específico 3]
+**Justificación:** [Por qué este cambio específico cumple el objetivo]
 
-**El feature NO debe:**
-1. Cambiar comportamiento existente
-2. Requerir modificaciones en otros módulos
-3. Introducir dependencias innecesarias
+## VALIDACIONES FINALES PRE-MODIFICACIÓN
+- [ ] ¿El cambio es el mínimo necesario?
+- [ ] ¿Se preserva toda la funcionalidad no relacionada?
+- [ ] ¿No se agregaron mejoras no solicitadas?
+- [ ] ¿Se mantienen las convenciones existentes?
+- [ ] ¿El cambio es reversible fácilmente?
+- [ ] ¿No se modificó arquitectura innecesariamente?
+- [ ] ¿La modificación es quirúrgica y precisa?
+
+## CRITERIOS DE ÉXITO
+**La modificación estará completa cuando:**
+1. [Comportamiento específico cambiado según solicitado]
+2. [Todo lo demás sigue funcionando igual]
+3. [No se introdujeron efectos secundarios]
+
+**La modificación NO debe:**
+1. Cambiar comportamiento no solicitado
+2. Requerir ajustes en otros módulos
+3. Romper funcionalidades existentes
+4. Introducir complejidad adicional
+
+## ROLLBACK PLAN
+**En caso de problemas:**
+- Código original documentado: [Ubicación]
+- Pasos para revertir: [Secuencia específica]
+- Puntos de verificación: [Checkpoints para confirmar rollback]
