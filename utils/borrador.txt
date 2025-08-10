@@ -9,12 +9,11 @@
 
 ### 1. DEFINICIÓN EXACTA DE LA MODIFICACIÓN
 **Cambio solicitado:**
-Obtener la geolocalización del usuario
+Cuando el usuario ingresa que aparezca directamente la ia con un mensaje
 [DESCRIPCIÓN ESPECÍFICA DE QUÉ MODIFICAR AQUÍ]
-Obtener desde el telefono donde está ejecutandose Telegram la 
-geolocalización del usuario. En forma directa con la ai, sin necesidad
-de usar comandos que comienzan con "/ubicacion" o "/loc". La ia debe
-responder. Evaluar opciones y seleccionar la que sea 
+Al ingresar el usuario la ia debe enviar un mensaje muy breve de saludo
+como por ejemplo: "Hola, soy un botito que responde tus preguntas"
+Evaluar opciones y seleccionar la que sea 
 menos intrusiva. La mas simple y que requiera menos modificaciones del
 codigo actual.
 

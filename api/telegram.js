@@ -48,7 +48,8 @@ async function handleMessage(msg, token) {
   }
 
   if (text.startsWith('/start')) {
-    return sendMessage(token, chatId, '🤖 Bot desplegado en Vercel y reontraSuperListo.');
+  await sendMessage(token, chatId, '🤖 Bot desplegado en Vercel y reontraSuperListo.');
+  return sendMessage(token, chatId, 'Hola, soy un botito que responde tus preguntas');
   }
   if (text.startsWith('/info')) {
     const info = `Chat ID: ${chatId}\nUser: ${msg.from.username || msg.from.first_name}`;
