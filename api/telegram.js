@@ -40,7 +40,13 @@ async function handleMessage(msg, token) {
   // NUEVO: Si el mensaje contiene ubicación, generar respuesta IA contextual
   if (msg.location) {
     const { latitude, longitude } = msg.location;
-  return sendMessage(token, chatId, `Lat: ${latitude}, Lon: ${longitude}`);
+    let address = '';
+    try {
+      address = await reverseGeocode(latitude, longitude);
+    } catch (_) {}
+    const base = `Lat: ${latitude}, Lon: ${longitude}`;
+    const textOut = address ? `${base}\nDirección: ${address}` : base;
+    return sendMessage(token, chatId, textOut);
   }
 
   if (text.startsWith('/start')) {
@@ -108,4 +114,19 @@ async function callTelegram(token, method, payload) {
     throw new Error(`Telegram API error: ${resp.status} ${body}`);
   }
   return resp.json();
+}
+
+// Geocodificación inversa mínima usando Nominatim (OpenStreetMap)
+// Nota: Uso ligero recomendado; para producción intensiva emplear proveedor con clave (OpenCage, Google, etc.)
+async function reverseGeocode(lat, lon) {
+  const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}&zoom=10&addressdetails=0`;
+  const resp = await fetch(url, {
+    headers: {
+      // Incluir User-Agent descriptivo según política de Nominatim
+      'User-Agent': 'telegram-bot-vercel/1.0 (contact: example@example.com)'
+    }
+  });
+  if (!resp.ok) return '';
+  const data = await resp.json();
+  return (data && data.display_name) ? data.display_name : '';
 }
