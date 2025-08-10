@@ -48,8 +48,13 @@ async function handleMessage(msg, token) {
         address = await reverseGeocode(latitude, longitude);
       }
     } catch (_) {}
+    let pois = '';
+    try {
+      pois = await fetchNearbyPOI(latitude, longitude);
+    } catch (_) {}
     const base = `Lat: ${latitude}, Lon: ${longitude}`;
-    const textOut = address ? `${base}\nDirección: ${address}` : base;
+    let textOut = address ? `${base}\nDirección: ${address}` : base;
+    if (pois) textOut += `\n${pois}`;
     return sendMessage(token, chatId, textOut);
   }
 
@@ -152,4 +157,29 @@ async function reverseGeocodeMapbox(lat, lon) {
   } catch (_) {
     return '';
   }
+}
+
+// POIs cercanos vía Overpass (amenities comunes) - uso mínimo
+async function fetchNearbyPOI(lat, lon) {
+  const query = `\n[out:json][timeout:10];\n(\n  node(around:300,${lat},${lon})[amenity~"^(restaurant|cafe|bank|atm|pharmacy|hospital|fuel)$"];\n);\nout tags limit 5;`;
+  const resp = await fetch('https://overpass-api.de/api/interpreter', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'User-Agent': 'telegram-bot-vercel/1.0 (contact: example@example.com)'
+    },
+    body: new URLSearchParams({ data: query })
+  });
+  if (!resp.ok) return '';
+  const data = await resp.json();
+  if (!data.elements || !data.elements.length) return '';
+  const list = data.elements
+    .map((e, i) => {
+      const tags = e.tags || {};
+      const n = tags.name || tags.brand || tags.operator || tags.amenity || 'POI';
+      return `${i + 1}) ${n}`.slice(0, 40);
+    })
+    .slice(0, 5);
+  if (!list.length) return '';
+  return `POI cercanos: ${list.join('; ')}`;
 }

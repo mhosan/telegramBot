@@ -9,14 +9,12 @@
 
 ### 1. DEFINICIÓN EXACTA DE LA MODIFICACIÓN
 **Cambio solicitado:**
-Corregir que cuando el usuario ingresa luego de un rato tiene que 
-geolocalizar como primer pregunta para que el bot reaccione.
+En la geolocalización agregar datos de puntos de interes POI y 
+servicios cercanos.
 [DESCRIPCIÓN ESPECÍFICA DE QUÉ MODIFICAR AQUÍ]
-Al regresar el usuario la ia no reacciona hasta que se geolocaliza.
-Ajustar el comportamiento para evitar esto y que solo quede el botón
-inferior. No debe haber mensajes que inviten a hacerlo.
-Debe ser una opción que el usuario use cuando quiera.
-
+Agregar datos de puntos de interes y servicios cercanos cuando se 
+hace la geolocalizacion. Obtener los datos de Overpass API 
+(OpenStreetMap).
 **Especificaciones obligatorias:**
 - [ ] Comportamiento ACTUAL a cambiar (específico)
 - [ ] Comportamiento DESEADO (específico)
