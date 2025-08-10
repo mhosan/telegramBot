@@ -1,7 +1,8 @@
 // Cliente mínimo de IA para OpenRouter
 // Proporciona una sola función: askAI(prompt, model?) -> Promise<string>
 
-const DEFAULT_MODEL = "mistralai/mistral-7b-instruct:free"; // Modelo sencillo y gratuito
+// const DEFAULT_MODEL = "mistralai/mistral-7b-instruct:free"; // Modelo anterior comentado
+const DEFAULT_MODEL = "meta-llama/llama-3.3-70b-instruct:free"; // Nuevo modelo solicitado
 
 async function askAI(prompt, model = DEFAULT_MODEL) {
   if (!prompt) return "Prompt vacío"; // Manejo mínimo
@@ -13,15 +14,15 @@ async function askAI(prompt, model = DEFAULT_MODEL) {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`,
-  "Content-Type": "application/json",
-  // Headers mínimos adicionales igual que en openrouter.js para habilitar respuesta
-  "HTTP-Referer": "https://telegram-bot.vercel.app/",
-  "X-Title": "Mhosan"
+        "Content-Type": "application/json",
+        // Headers mínimos adicionales igual que en openrouter.js para habilitar respuesta
+        "HTTP-Referer": "https://telegram-bot.vercel.app/",
+        "X-Title": "Mhosan"
       },
       body: JSON.stringify({
         model,
-  messages: [ { role: "user", content: prompt } ],
-  provider: { sort: 'latency' }
+        messages: [{ role: "user", content: prompt }],
+        provider: { sort: 'latency' }
       })
     });
     const data = await resp.json();
@@ -29,7 +30,7 @@ async function askAI(prompt, model = DEFAULT_MODEL) {
     if (content) return content;
     if (data && data.error) {
       // Mensaje breve de error permitido (sin detalles extensos)
-      return `Error IA: ${data.error.message || data.error}`.slice(0,120);
+      return `Error IA: ${data.error.message || data.error}`.slice(0, 120);
     }
     return "Sin respuesta";
   } catch (e) {
