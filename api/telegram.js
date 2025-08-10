@@ -41,10 +41,7 @@ async function handleMessage(msg, token) {
   // NUEVO: Si el mensaje contiene ubicación, generar respuesta IA contextual
   if (msg.location) {
     const { latitude, longitude } = msg.location;
-    const { askAI } = require('../utils/aiClient');
-    const prompt = `Ubicación: lat ${latitude} lon ${longitude}. Si no puedes identificar país aproximado con alta confianza di: 'Ubicación no determinada'. No agregues nada más.`;
-    const reply = await askAI(prompt);
-  return sendMessage(token, chatId, `Lat: ${latitude}, Lon: ${longitude} - ${reply}`);
+  return sendMessage(token, chatId, `Lat: ${latitude}, Lon: ${longitude}`);
   }
 
   if (text.startsWith('/start')) {
