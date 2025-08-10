@@ -161,18 +161,25 @@ async function reverseGeocodeMapbox(lat, lon) {
 
 // POIs cercanos vía Overpass (amenities comunes) - uso mínimo
 async function fetchNearbyPOI(lat, lon) {
-  const query = `\n[out:json][timeout:10];\n(\n  node(around:300,${lat},${lon})[amenity~"^(restaurant|cafe|bank|atm|pharmacy|hospital|fuel)$"];\n);\nout tags limit 5;`;
+  const query = `\n[out:json][timeout:10];\n(\n  node(around:300,${lat},${lon})[amenity~"^(restaurant|cafe|bank|atm|pharmacy|hospital|fuel)$"];\n  way(around:300,${lat},${lon})[amenity~"^(restaurant|cafe|bank|atm|pharmacy|hospital|fuel)$"];\n);\nout center tags limit 5;`;
   const resp = await fetch('https://overpass-api.de/api/interpreter', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'User-Agent': 'telegram-bot-vercel/1.0 (contact: example@example.com)'
+      'User-Agent': 'telegram-bot-vercel/1.0 (contact: example@example.com)',
+      'Accept': 'application/json'
     },
     body: new URLSearchParams({ data: query })
   });
-  if (!resp.ok) return '';
+  if (!resp.ok) {
+    if (process.env.DEBUG_POI) console.error('Overpass status', resp.status);
+    return '';
+  }
   const data = await resp.json();
-  if (!data.elements || !data.elements.length) return '';
+  if (!data.elements || !data.elements.length) {
+    if (process.env.DEBUG_POI) console.error('Overpass sin elementos');
+    return '';
+  }
   const list = data.elements
     .map((e, i) => {
       const tags = e.tags || {};
