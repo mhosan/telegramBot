@@ -42,7 +42,11 @@ async function handleMessage(msg, token) {
     const { latitude, longitude } = msg.location;
     let address = '';
     try {
-      address = await reverseGeocode(latitude, longitude);
+      // Primero intentar con Mapbox (por defecto); si falla o no hay token, fallback a Nominatim
+      address = await reverseGeocodeMapbox(latitude, longitude);
+      if (!address) {
+        address = await reverseGeocode(latitude, longitude);
+      }
     } catch (_) {}
     const base = `Lat: ${latitude}, Lon: ${longitude}`;
     const textOut = address ? `${base}\nDirección: ${address}` : base;
@@ -129,4 +133,23 @@ async function reverseGeocode(lat, lon) {
   if (!resp.ok) return '';
   const data = await resp.json();
   return (data && data.display_name) ? data.display_name : '';
+}
+
+// Geocodificación inversa con Mapbox (por defecto si hay token)
+// Requiere variable de entorno MAPBOX_TOKEN o MAPBOX_API_KEY
+async function reverseGeocodeMapbox(lat, lon) {
+  const token = process.env.MAPBOX_TOKEN || process.env.MAPBOX_API_KEY;
+  if (!token) return '';
+  try {
+    const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(lon)},${encodeURIComponent(lat)}.json?limit=1&language=es&access_token=${token}`;
+    const resp = await fetch(url);
+    if (!resp.ok) return '';
+    const data = await resp.json();
+    if (data && Array.isArray(data.features) && data.features[0]) {
+      return data.features[0].place_name || '';
+    }
+    return '';
+  } catch (_) {
+    return '';
+  }
 }
