@@ -9,13 +9,13 @@
 
 ### 1. DEFINICIÓN EXACTA DE LA MODIFICACIÓN
 **Cambio solicitado:**
-Cuando el usuario ingresa que aparezca directamente la ia con un mensaje
+Corregir que cuando el usuario ingresa luego de un rato tiene que 
+geolocalizar como primer pregunta para que el bot reaccione.
 [DESCRIPCIÓN ESPECÍFICA DE QUÉ MODIFICAR AQUÍ]
-Al ingresar el usuario la ia debe enviar un mensaje muy breve de saludo
-como por ejemplo: "Hola, soy un botito que responde tus preguntas"
-Evaluar opciones y seleccionar la que sea 
-menos intrusiva. La mas simple y que requiera menos modificaciones del
-codigo actual.
+Al regresar el usuario la ia no reacciona hasta que se geolocaliza.
+Ajustar el comportamiento para evitar esto y que solo quede el botón
+inferior. No debe haber mensajes que inviten a hacerlo.
+Debe ser una opción que el usuario use cuando quiera.
 
 **Especificaciones obligatorias:**
 - [ ] Comportamiento ACTUAL a cambiar (específico)

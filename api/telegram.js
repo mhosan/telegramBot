@@ -1,8 +1,7 @@
 // Webhook serverless para Telegram en Vercel (CommonJS)
 // Requisitos: TELEGRAM_BOT_TOKEN y WEBHOOK_SECRET (opcional) como variables de entorno.
 
-// Estado mínimo para evitar solicitar ubicación repetidamente
-const askedLocation = {}; // chatId -> true
+// (Eliminado estado de solicitud de ubicación automática)
 
 module.exports = async function (req, res) {
   if (req.method !== 'POST') {
@@ -45,8 +44,15 @@ async function handleMessage(msg, token) {
   }
 
   if (text.startsWith('/start')) {
-  await sendMessage(token, chatId, '🤖 Bot desplegado en Vercel y reontraSuperListo.');
-  return sendMessage(token, chatId, 'Hola, soy un botito que responde tus preguntas');
+    await callTelegram(token, 'sendMessage', {
+      chat_id: chatId,
+      text: '🤖 Bot desplegado en Vercel y reontraSuperListo.',
+      reply_markup: {
+        keyboard: [[ { text: 'Compartir ubicación', request_location: true } ]],
+        resize_keyboard: true
+      }
+    });
+    return sendMessage(token, chatId, 'Hola, soy un botito que responde tus preguntas');
   }
   if (text.startsWith('/info')) {
     const info = `Chat ID: ${chatId}\nUser: ${msg.from.username || msg.from.first_name}`;
@@ -69,22 +75,9 @@ async function handleMessage(msg, token) {
   // --- Fin nuevo comando IA ---
 
   if (!text.startsWith('/')) {
-    // NUEVO: Solicitar ubicación una sola vez de forma opcional
-    if (!askedLocation[chatId]) {
-      askedLocation[chatId] = true;
-      await callTelegram(token, 'sendMessage', {
-        chat_id: chatId,
-        text: 'Comparte tu ubicación si deseas más contexto.',
-        reply_markup: {
-          keyboard: [[ { text: 'Compartir ubicación', request_location: true } ]],
-          one_time_keyboard: true,
-          resize_keyboard: true
-        }
-      });
-    }
-  const { askAI } = require('../utils/aiClient');
-  const reply = await askAI(text);
-  return sendMessage(token, chatId, reply);
+    const { askAI } = require('../utils/aiClient');
+    const reply = await askAI(text);
+    return sendMessage(token, chatId, reply);
   }
 }
 
