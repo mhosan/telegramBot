@@ -557,77 +557,64 @@ En Vercel Dashboard:
 
 ---
 
-## 12. Código básico para pruebas (desarrollo local)
+## 12. Desarrollo local con Vercel
 
-Archivo sugerido: `bot.js`
+### 12.1 Simular entorno serverless
+```powershell
+# Instalar Vercel CLI (si no lo tienes)
+npm install -g vercel
 
-```js
-require('dotenv').config();
-const TelegramBot = require('node-telegram-bot-api');
-
-const token = process.env.TELEGRAM_BOT_TOKEN;
-
-if (!token) {
-	console.error('ERROR: TELEGRAM_BOT_TOKEN no está definido en .env');
-	process.exit(1);
-}
-
-// Bot en modo polling (ideal para desarrollo local)
-const bot = new TelegramBot(token, { polling: true });
-
-console.log('🤖 Bot iniciado en modo desarrollo...');
-
-// /start
-bot.onText(/\/start/, (msg) => {
-	const chatId = msg.chat.id;
-	const userName = msg.from.first_name || 'Usuario';
-	console.log(`📱 Comando /start de ${userName} (${chatId})`);
-	bot.sendMessage(chatId, `¡Hola ${userName}! 👋\n\nSoy tu bot en desarrollo local.`);
-});
-
-// /test
-bot.onText(/\/test/, (msg) => {
-	const chatId = msg.chat.id;
-	console.log('🧪 Comando /test recibido');
-	bot.sendMessage(chatId, '✅ Test exitoso! El bot funciona correctamente.');
-});
-
-// Eco de mensajes (excepto comandos)
-bot.on('message', (msg) => {
-	const chatId = msg.chat.id;
-	const text = msg.text;
-	if (text && !text.startsWith('/')) {
-		console.log(`💬 Mensaje: "${text}" de ${msg.from.first_name}`);
-		bot.sendMessage(chatId, `Recibí tu mensaje: "${text}"`);
-	}
-});
-
-bot.on('error', (err) => console.error('❌ Error del bot:', err));
-bot.on('polling_error', (err) => console.error('❌ Error de polling:', err));
-
-process.on('SIGINT', () => {
-	console.log('\n👋 Cerrando bot...');
-	bot.stopPolling();
-	process.exit(0);
-});
+# Desarrollo local que simula Vercel
+vercel dev
 ```
 
-### 12.1 Ejecutar en local
-```bash
-# Instalar dependencias (si no lo hiciste)
-npm install
-
-# Ejecutar
-node bot.js
-```
 Salida esperada:
 ```
-🤖 Bot iniciado en modo desarrollo...
+> Ready! Available at http://localhost:3000
+> Your webhook endpoint: http://localhost:3000/webhook
 ```
 
-### 12.2 Probar el bot
-1. Abrir Telegram.
-2. Buscar el bot (username configurado con BotFather).
+### 12.2 Probar el webhook localmente
+```powershell
+# Test básico del endpoint
+curl -X POST http://localhost:3000/webhook -H "Content-Type: application/json" -d '{"test": true}'
+
+# Respuesta esperada: {"ok":true}
+```
+
+### 12.3 Configurar webhook para desarrollo
+```powershell
+# Usar ngrok o similar para exponer localhost
+ngrok http 3000
+
+# Configurar webhook temporal (usar URL de ngrok)
+.\scripts\setWebhook.ps1 -Token "tu_token" -BaseUrl "https://abc123.ngrok.io"
+```
+
+### 12.4 Variables de entorno locales
+Archivo `.env` (NO subir al repo):
+```
+TELEGRAM_BOT_TOKEN=tu_token_aquí
+NODE_ENV=development
+WEBHOOK_SECRET=opcional_para_testing
+```
+
+### 12.5 Debugging
+En `api/telegram.js` agregar logs temporales:
+```javascript
+console.log('[DEBUG] Update recibido:', JSON.stringify(update, null, 2));
+console.log('[DEBUG] Mensaje procesado:', message?.text);
+```
+
+Ver logs en tiempo real:
+```powershell
+# Logs aparecen en la terminal donde corre vercel dev
+vercel dev
+```
+
+---
+
+## 13. Testing del bot
 3. Enviar `/start`, luego `/test`, luego texto libre.
 4. Ver logs en consola.
 
@@ -640,20 +627,24 @@ Ejemplo logs:
 
 ### 12.3 Script de desarrollo con reinicio automático
 Instalar nodemon:
-```bash
+### 13.1 Configurar Nodemon para desarrollo
+```powershell
 npm install -D nodemon
 ```
-Agregar (o ya incluido) en `package.json`:
-```jsonc
+
+Actualizar `package.json`:
+```json
 "scripts": {
-	"start": "node mhBot01.js",
-	"start:daemon": "node start.js",
-	"dev": "nodemon bot.js"
+	"start": "node api/telegram.js",  
+	"dev": "vercel dev"
 }
 ```
+
 Ejecutar modo desarrollo:
-```bash
+```powershell
 npm run dev
+# O directamente:
+vercel dev
 ```
 
 ### 12.4 Ejemplo avanzado (bot con botones / parámetros)
@@ -713,20 +704,27 @@ bot.on('message', (msg) => {
 });
 ```
 
-### 12.6 Comandos útiles (desarrollo)
-```bash
-ps aux | grep node      # Ver procesos
-pkill -f "node bot.js"  # Matar instancia
-tail -f bot.log         # Ver logs (si guardas en archivo)
-netstat -tulpn | grep :3000 # Verificar puerto
+### 13.2 Comandos útiles (desarrollo con Vercel)
+```powershell
+# Ver procesos de Vercel
+vercel ls                        # Proyectos
+vercel logs                      # Logs recientes
+
+# Testing local
+curl -X POST localhost:3000/webhook -H "Content-Type: application/json" -d '{"test":true}'
+
+# Variables de entorno
+vercel env ls                    # Ver variables
+vercel env add                   # Agregar variable
 ```
 
-### 12.7 Errores comunes (desarrollo)
+### 13.3 Errores comunes (desarrollo serverless)
 | Error | Causa | Solución |
 |-------|-------|----------|
-| 409 Conflict getUpdates | Otra instancia polling | Matar procesos previos, reiniciar |
-| Token inválido | Valor incorrecto o vacío | Revisar `.env` / variables panel |
-| Bot no responde | Código detenido o error silencioso | Ejecutar manual y revisar consola |
+| Port 3000 ocupado | Vercel dev ya corriendo | `vercel dev --listen 3001` |
+| Token inválido | Variable no configurada | Revisar `.env` local |
+| Webhook 404 | Endpoint incorrecto | Verificar `/webhook` en URL |
+| Function timeout | Código muy lento | Optimizar, usar async/await |
 | polling_error | Intermitencia red | Se auto-recupera, reinicia si persiste |
 
 ---
