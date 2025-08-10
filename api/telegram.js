@@ -1,6 +1,9 @@
 // Webhook serverless para Telegram en Vercel (CommonJS)
 // Requisitos: TELEGRAM_BOT_TOKEN y WEBHOOK_SECRET (opcional) como variables de entorno.
 
+// Estado mínimo para evitar solicitar ubicación repetidamente
+const askedLocation = {}; // chatId -> true
+
 module.exports = async function (req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ ok: false, error: 'Method Not Allowed' });
@@ -35,6 +38,15 @@ async function handleMessage(msg, token) {
   const chatId = msg.chat.id;
   const text = msg.text || '';
 
+  // NUEVO: Si el mensaje contiene ubicación, generar respuesta IA contextual
+  if (msg.location) {
+    const { latitude, longitude } = msg.location;
+    const { askAI } = require('../utils/aiClient');
+    const prompt = `Mi ubicación es lat ${latitude} lon ${longitude}. Da un breve mensaje contextual.`;
+    const reply = await askAI(prompt);
+    return sendMessage(token, chatId, reply);
+  }
+
   if (text.startsWith('/start')) {
     return sendMessage(token, chatId, '🤖 Bot desplegado en Vercel y reontraSuperListo.');
   }
@@ -59,6 +71,19 @@ async function handleMessage(msg, token) {
   // --- Fin nuevo comando IA ---
 
   if (!text.startsWith('/')) {
+    // NUEVO: Solicitar ubicación una sola vez de forma opcional
+    if (!askedLocation[chatId]) {
+      askedLocation[chatId] = true;
+      await callTelegram(token, 'sendMessage', {
+        chat_id: chatId,
+        text: 'Comparte tu ubicación si deseas más contexto.',
+        reply_markup: {
+          keyboard: [[ { text: 'Compartir ubicación', request_location: true } ]],
+          one_time_keyboard: true,
+          resize_keyboard: true
+        }
+      });
+    }
   const { askAI } = require('../utils/aiClient');
   const reply = await askAI(text);
   return sendMessage(token, chatId, reply);

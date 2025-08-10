@@ -9,10 +9,14 @@
 
 ### 1. DEFINICIÓN EXACTA DE LA MODIFICACIÓN
 **Cambio solicitado:**
-Que por defecto siempre responda la ia
+Obtener la geolocalización del usuario
 [DESCRIPCIÓN ESPECÍFICA DE QUÉ MODIFICAR AQUÍ]
-Modificar y/o actualizar el código para que siempre responda la ia sin tener
-que ingresar "/ia .."
+Obtener desde el telefono donde está ejecutandose Telegram la 
+geolocalización del usuario. En forma directa con la ai, sin necesidad
+de usar comandos que comienzan con "/ubicacion" o "/loc". La ia debe
+responder. Evaluar opciones y seleccionar la que sea 
+menos intrusiva. La mas simple y que requiera menos modificaciones del
+codigo actual.
 
 **Especificaciones obligatorias:**
 - [ ] Comportamiento ACTUAL a cambiar (específico)
