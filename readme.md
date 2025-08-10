@@ -29,6 +29,8 @@ Conéctate primero por SSH y luego ejecuta:
 
 ```bash
 ssh usuario@ssh-usuario.alwaysdata.net
+C:\Users\Usuario>ssh mhtest_mhosan@ssh-mhtest.alwaysdata.net
+(mhtest_mhosan@ssh-mhtest.alwaysdata.net) Password: mi clave aqui
 cd ~/bot
 npm install
 ```
