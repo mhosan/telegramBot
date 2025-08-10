@@ -15,7 +15,7 @@ async function askAI(prompt, model = DEFAULT_MODEL) {
         "Authorization": `Bearer ${token}`,
   "Content-Type": "application/json",
   // Headers mínimos adicionales igual que en openrouter.js para habilitar respuesta
-  "HTTP-Referer": "https://mhtest.alwaysdata.net/#/",
+  "HTTP-Referer": "https://telegram-bot.vercel.app/",
   "X-Title": "Mhosan"
       },
       body: JSON.stringify({
