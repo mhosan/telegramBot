@@ -44,7 +44,7 @@ async function handleMessage(msg, token) {
     const { askAI } = require('../utils/aiClient');
     const prompt = `Ubicación: lat ${latitude} lon ${longitude}. Si no puedes identificar país aproximado con alta confianza di: 'Ubicación no determinada'. No agregues nada más.`;
     const reply = await askAI(prompt);
-    return sendMessage(token, chatId, reply);
+  return sendMessage(token, chatId, `Lat: ${latitude}, Lon: ${longitude} - ${reply}`);
   }
 
   if (text.startsWith('/start')) {
