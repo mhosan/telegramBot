@@ -13,11 +13,15 @@ async function askAI(prompt, model = DEFAULT_MODEL) {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json"
+  "Content-Type": "application/json",
+  // Headers mínimos adicionales igual que en openrouter.js para habilitar respuesta
+  "HTTP-Referer": "https://mhtest.alwaysdata.net/#/",
+  "X-Title": "Mhosan"
       },
       body: JSON.stringify({
         model,
-        messages: [ { role: "user", content: prompt } ]
+  messages: [ { role: "user", content: prompt } ],
+  provider: { sort: 'latency' }
       })
     });
     const data = await resp.json();
