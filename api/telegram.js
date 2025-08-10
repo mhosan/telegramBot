@@ -1,7 +1,7 @@
-// Webhook serverless para Telegram en Vercel
+// Webhook serverless para Telegram en Vercel (CommonJS)
 // Requisitos: TELEGRAM_BOT_TOKEN y WEBHOOK_SECRET (opcional) como variables de entorno.
 
-export default async function handler(req, res) {
+module.exports = async function (req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ ok: false, error: 'Method Not Allowed' });
   }
@@ -16,7 +16,7 @@ export default async function handler(req, res) {
     return res.status(403).json({ ok: false, error: 'Forbidden' });
   }
 
-  const update = req.body;
+  const update = req.body || {};
   try {
     if (update.message) {
       await handleMessage(update.message, token);
@@ -26,9 +26,10 @@ export default async function handler(req, res) {
     return res.status(200).json({ ok: true });
   } catch (err) {
     console.error('Webhook error:', err);
+    // Siempre responder 200 para evitar reintentos masivos
     return res.status(200).json({ ok: true });
   }
-}
+};
 
 async function handleMessage(msg, token) {
   const chatId = msg.chat.id;
