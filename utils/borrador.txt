@@ -1,149 +1,146 @@
 ## INSTRUCCIONES CRÍTICAS - LEER PRIMERO
-- **MODIFICAR ÚNICAMENTE** lo específicamente solicitado
-- **NO TOCAR** funcionalidades relacionadas que funcionen correctamente
-- **NO APROVECHAR** para hacer "mejoras" adicionales
-- **MANTENER** el comportamiento existente en todo lo demás
-- **CONFIRMAR** alcance exacto de la modificación antes de proceder
+- **IMPLEMENTAR ÚNICAMENTE** la funcionalidad solicitada
+- **NO MODIFICAR** código existente que funciona correctamente
+- **NO AGREGAR** validaciones, optimizaciones o mejoras no pedidas
+- **MANTENER** la arquitectura y patrones existentes del proyecto
+- **CONFIRMAR** alcance exacto antes de proceder
 
-## PROCESO DE MODIFICACIÓN
+## PROCESO DE IMPLEMENTACIÓN
 
-### 1. DEFINICIÓN EXACTA DE LA MODIFICACIÓN
-**Cambio solicitado:**
-En la geolocalización agregar datos de puntos de interes POI y 
-servicios cercanos.
-[DESCRIPCIÓN ESPECÍFICA DE QUÉ MODIFICAR AQUÍ]
-Agregar datos de puntos de interes y servicios cercanos cuando se 
-hace la geolocalizacion. Obtener los datos de Overpass API 
-(OpenStreetMap).
+### 1. DEFINICIÓN EXACTA DEL FEATURE
+**Descripción del feature solicitado:**
+Persistir cada geolocalización en una base de datos.
+[DESCRIPCIÓN DETALLADA DEL FEATURE AQUÍ]
+Cada geolocalización que se haga se debe guardar en una base de datos
+Supabase, en la tabla public.geolocalizaciones, la cual tiene 7 campos:
+1) id int8 generado por la propia base de datos
+2) created_at timestamptz, fecha y hora de la geolocalización
+3) latitud numerico con precision decimal variables, es la latitud geolocalizada
+4) longitud numerico con precision decimal variables, es la longitud geolocalizada
+5) direccion varchar, es la dirección de la geolocalización inversa
+6) origen varchar, algún dato distintivo del usuario
+7) ocurrencias int4, si un valor de latitud y longitud y origen se repite aumentar en uno este contador
+Los datos de la base de datos estan en .env.
+
 **Especificaciones obligatorias:**
-- [ ] Comportamiento ACTUAL a cambiar (específico)
-- [ ] Comportamiento DESEADO (específico)
-- [ ] Elementos que NO deben cambiar
-- [ ] Alcance exacto de la modificación
+- [ ] Funcionalidad EXACTA requerida (sin interpretaciones)
+- [ ] Casos de uso específicos a cubrir
+- [ ] Comportamiento esperado definido
+- [ ] Límites claros de lo que NO debe incluir
 
-### 2. MAPEO DE IMPACTO (Sin modificar código)
-**Análisis de componentes afectados:**
-- Código específico que debe cambiar
-- Funcionalidades que podrían verse afectadas
-- Dependencias que usan el código a modificar
-- Puntos de integración que deben preservarse
+### 2. ANÁLISIS DE INTEGRACIÓN (Sin modificar código)
+**Evaluación del proyecto actual:**
+- Arquitectura existente a respetar
+- Patrones de código a seguir
+- Dependencias actuales disponibles
+- Puntos de integración específicos
 
 **Restricciones del análisis:**
-- IDENTIFICAR únicamente lo mínimo necesario
-- NO buscar oportunidades de mejora
-- NO considerar optimizaciones paralelas
-- MANTENER la lógica existente intacta donde sea posible
+- NO sugerir refactoring de código existente
+- NO proponer cambios de arquitectura
+- USAR herramientas y librerías ya presentes
+- MANTENER convenciones de nomenclatura actuales
 
-### 3. INVESTIGACIÓN TÉCNICA ESPECÍFICA
-**Documentación de referencia:**
+### 3. INVESTIGACIÓN TÉCNICA DIRIGIDA
+**Documentación oficial de referencia:**
 - DHTMLX Gantt API: https://docs.dhtmlx.com/gantt/api__refs__gantt.html
 - Ejemplos oficiales: https://docs.dhtmlx.com/gantt/samples/
 
-**Validación de la modificación:**
-- Confirmar que el cambio es técnicamente viable
+**Validación de implementación:**
+- Buscar ejemplos similares en documentación oficial
 - Verificar compatibilidad con versión actual
-- Asegurar que no rompe patrones establecidos
+- Confirmar mejores prácticas específicas para esta funcionalidad
 
-### 4. ESTRATEGIA DE MODIFICACIÓN MÍNIMA
+### 4. DISEÑO MÍNIMO VIABLE
 **Antes de implementar, DEFINIR:**
-- [ ] Líneas específicas de código a modificar
-- [ ] Archivos exactos que requieren cambios
-- [ ] Métodos/funciones que necesitan ajustes
-- [ ] Variables/propiedades a modificar
-- [ ] Lo que debe permanecer SIN CAMBIOS
+- [ ] Componentes NUEVOS necesarios (mínimos)
+- [ ] Archivos NUEVOS requeridos
+- [ ] Modificaciones MÍNIMAS a archivos existentes
+- [ ] APIs o métodos NUEVOS a crear
+- [ ] Eventos o hooks NUEVOS necesarios
 
-### 5. PLAN DE IMPLEMENTACIÓN QUIRÚRGICA
+### 5. PLAN DE IMPLEMENTACIÓN INCREMENTAL
 
-#### Fase 1: Localización Exacta
-- Identificar las líneas precisas a modificar
-- Confirmar contexto y dependencias inmediatas
-- Documentar estado actual para rollback
+#### Fase 1: Estructura Base
+- Crear ÚNICAMENTE archivos/componentes nuevos necesarios
+- Definir interfaces mínimas
+- NO tocar funcionalidad existente
 
-#### Fase 2: Modificación Puntual
-- Cambiar ÚNICAMENTE lo solicitado
-- Mantener estructura y patrones existentes
-- Preservar nombres, formatos y convenciones
+#### Fase 2: Lógica Core
+- Implementar funcionalidad específica solicitada
+- Integrar con puntos definidos en Fase 1
+- Mantener aislamiento del código existente
 
-#### Fase 3: Verificación de No-Regresión
-- Confirmar que la modificación funciona
-- Verificar que funcionalidades relacionadas siguen igual
-- Asegurar que no se rompió nada más
+#### Fase 3: Integración Mínima
+- Conectar nueva funcionalidad con sistema existente
+- ÚNICAMENTE los puntos de conexión necesarios
+- Preservar comportamiento actual
+
+#### Fase 4: Activación
+- Hacer disponible la nueva funcionalidad
+- Sin modificar flujos existentes
+- Mantener retrocompatibilidad total
 
 ## RESTRICCIONES ESTRICTAS
 
-### LO QUE NO DEBE HACERSE:
-- ❌ Refactorizar código "mientras estamos ahí"
-- ❌ Cambiar nombres de variables/métodos
-- ❌ Optimizar algoritmos existentes
-- ❌ Mejorar manejo de errores no relacionado
-- ❌ Actualizar dependencias
-- ❌ Cambiar estructuras de datos
-- ❌ Modificar estilos de código
-- ❌ Agregar validaciones extra
-- ❌ Cambiar arquitectura local
+### LO QUE NO DEBE INCLUIRSE:
+- ❌ Validaciones adicionales "por seguridad"
+- ❌ Optimizaciones no solicitadas
+- ❌ Refactoring de código existente
+- ❌ Mejoras de UX no pedidas
+- ❌ Logging adicional
+- ❌ Manejo de errores más allá del mínimo
+- ❌ Documentación extensa
+- ❌ Tests unitarios (a menos que se soliciten)
 
-### LO QUE SÍ DEBE HACERSE:
-- ✅ Cambio exacto solicitado
-- ✅ Mantener estilo de código existente
-- ✅ Preservar funcionalidad no relacionada
-- ✅ Respetar convenciones actuales
-- ✅ Mantener legibilidad sin refactorizar
+### LO QUE SÍ DEBE INCLUIRSE:
+- ✅ Funcionalidad exacta solicitada
+- ✅ Integración mínima necesaria
+- ✅ Respeto por convenciones existentes
+- ✅ Código limpio y legible
+- ✅ Comentarios solo para lógica compleja nueva
 
 ## FORMATO DE RESPUESTA REQUERIDO
 
-### RESUMEN DE LA MODIFICACIÓN
-**Cambio específico a realizar:** [Una línea clara]
-**Archivos a modificar:** [Lista exacta]
-**Líneas aproximadas afectadas:** [Número específico]
-**Funcionalidades que permanecen igual:** [Confirmación explícita]
+### RESUMEN DEL FEATURE
+**Funcionalidad a implementar:** [Una línea específica]
+**Archivos NUEVOS a crear:** [Lista específica]
+**Archivos existentes a MODIFICAR:** [Lista mínima con justificación]
+**Puntos de integración:** [Específicos y mínimos]
 
-### ANÁLISIS DE IMPACTO
-**Código que cambia:** [Descripción específica]
-**Código que NO cambia:** [Confirmación de lo que se preserva]
-**Dependencias afectadas:** [Si las hay]
-**Tests de regresión necesarios:** [Áreas específicas a verificar]
+### ARQUITECTURA PROPUESTA
+**Componentes nuevos:** [Lista con responsabilidad específica]
+**APIs nuevas:** [Métodos exactos necesarios]
+**Eventos nuevos:** [Si son necesarios]
+**Dependencias adicionales:** [Solo si son imprescindibles]
 
-### PLAN DE MODIFICACIÓN
-**Paso 1:** [Acción específica en archivo X, línea Y]
-**Paso 2:** [Acción específica en archivo Z, línea W]
-**Paso 3:** [Verificación específica]
+### PLAN FASEADO DETALLADO
+**Fase 1 - Estructura:** [Archivos a crear, tiempo estimado]
+**Fase 2 - Lógica:** [Funcionalidad core, tiempo estimado]
+**Fase 3 - Integración:** [Conexiones específicas, tiempo estimado]
+**Fase 4 - Activación:** [Disponibilidad, tiempo estimado]
 
-### IMPLEMENTACIÓN DETALLADA
-**Código actual:**
-```
-[Código que será modificado]
-```
+### IMPACTO EN SISTEMA EXISTENTE
+**Código existente afectado:** [Líneas específicas a modificar]
+**Funcionalidades en riesgo:** [Si las hay]
+**Pruebas de regresión necesarias:** [Áreas a verificar]
 
-**Código modificado:**
-```
-[Código después del cambio]
-```
+## VALIDACIONES FINALES PRE-IMPLEMENTACIÓN
+- [ ] ¿La solución es la mínima para cumplir el requisito?
+- [ ] ¿Se respeta la arquitectura existente?
+- [ ] ¿Se validó con documentación oficial?
+- [ ] ¿No agrega funcionalidades extras?
+- [ ] ¿Se mantiene retrocompatibilidad?
+- [ ] ¿El código existente sigue funcionando igual?
+- [ ] ¿El plan es incremental y reversible?
 
-**Justificación:** [Por qué este cambio específico cumple el objetivo]
+## CRITERIOS DE ACEPTACIÓN
+**El feature estará completo cuando:**
+1. [Criterio específico 1]
+2. [Criterio específico 2]
+3. [Criterio específico 3]
 
-## VALIDACIONES FINALES PRE-MODIFICACIÓN
-- [ ] ¿El cambio es el mínimo necesario?
-- [ ] ¿Se preserva toda la funcionalidad no relacionada?
-- [ ] ¿No se agregaron mejoras no solicitadas?
-- [ ] ¿Se mantienen las convenciones existentes?
-- [ ] ¿El cambio es reversible fácilmente?
-- [ ] ¿No se modificó arquitectura innecesariamente?
-- [ ] ¿La modificación es quirúrgica y precisa?
-
-## CRITERIOS DE ÉXITO
-**La modificación estará completa cuando:**
-1. [Comportamiento específico cambiado según solicitado]
-2. [Todo lo demás sigue funcionando igual]
-3. [No se introdujeron efectos secundarios]
-
-**La modificación NO debe:**
-1. Cambiar comportamiento no solicitado
-2. Requerir ajustes en otros módulos
-3. Romper funcionalidades existentes
-4. Introducir complejidad adicional
-
-## ROLLBACK PLAN
-**En caso de problemas:**
-- Código original documentado: [Ubicación]
-- Pasos para revertir: [Secuencia específica]
-- Puntos de verificación: [Checkpoints para confirmar rollback]
+**El feature NO debe:**
+1. Cambiar comportamiento existente
+2. Requerir modificaciones en otros módulos
+3. Introducir dependencias innecesarias

@@ -55,6 +55,12 @@ async function handleMessage(msg, token) {
     const base = `Lat: ${latitude}, Lon: ${longitude}`;
     let textOut = address ? `${base}\nDirección: ${address}` : base;
     if (pois) textOut += `\n${pois}`;
+    // Persistir geolocalización (silencioso si falta config)
+    try {
+      const origin = (msg.from && (msg.from.username || (msg.from.first_name || '') + '_' + msg.from.id)) || 'desconocido';
+      const { saveGeolocation } = require('../utils/geoStore');
+      await saveGeolocation(latitude, longitude, address || '', origin);
+    } catch (_) {}
     return sendMessage(token, chatId, textOut);
   }
 
